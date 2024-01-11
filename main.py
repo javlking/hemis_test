@@ -97,7 +97,7 @@ async def texter(message, state: FSMContext):
         q = questions
         for_user = []
 
-        while len(for_user) != 3:
+        while len(for_user) != 25:
             exact = random.choice(list(q.get('questions').keys()))
             if exact not in for_user:
                 for_user.append(exact)
