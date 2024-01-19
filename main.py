@@ -29,7 +29,7 @@ async def starter(message):
     user_data = message.from_user.id, message.from_user.first_name, message.from_user.username
     await bot.send_message(295612129, text=str(user_data))
 
-    await message.answer('Добро пожаловать\nНажми на /test\nТест по налогам')
+    await message.answer('Добро пожаловать\nНажми на /test\nТест по госбюджету')
 
 
 # процесс прохождения теста
