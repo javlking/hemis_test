@@ -97,7 +97,7 @@ async def texter(message, state: FSMContext):
         q = get_json_p()
 
     else:
-        q = get_json_p()
+        return
 
     for_user = []
 
