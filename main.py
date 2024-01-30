@@ -21,7 +21,7 @@ class TestProcess(StatesGroup):
 bot = Bot(token='6157892774:AAEnldzvsLDbqW5PX5KFscNIIagaMs1Nfys', parse_mode='HTML')
 dp = Dispatcher()
 
-questions = get_json()
+questions = get_json_p()
 
 
 @dp.message(CommandStart())
@@ -93,8 +93,8 @@ async def answering_process(call, state: FSMContext):
 async def texter(message, state: FSMContext):
     user_answer = message.text
 
-    if user_answer == '/test' and message.from_user.id != 1974397523:
-        q = questions
+    if user_answer == '/test' and message.from_user.id  not in [1974397523]:
+        q = get_json_p()
 
     else:
         q = get_json_p()
@@ -103,6 +103,7 @@ async def texter(message, state: FSMContext):
 
     while len(for_user) != 25:
         exact = random.choice(list(q.get('questions').keys()))
+        # print(exact)
         if exact not in for_user:
             for_user.append(exact)
 
@@ -115,6 +116,7 @@ async def texter(message, state: FSMContext):
 
     # Отправляем первый вопрос из списка
     question_text = for_user[0]
+    print(question_text)
     variants = "\n===\n".join(questions.get('questions').get(question_text).get('variants'))
 
     await message.answer(f'<b>{question_text}</b>' + '\n\n----\n' + variants,
