@@ -8,7 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 
 from buttons import questions_button
 
-from utils import get_json
+from utils import get_json, get_json_p
 
 import asyncio
 
@@ -29,7 +29,7 @@ async def starter(message):
     user_data = message.from_user.id, message.from_user.first_name, message.from_user.username
     await bot.send_message(295612129, text=str(user_data))
 
-    await message.answer('Добро пожаловать\nНажми на /test\nТест по госбюджету')
+    await message.answer('Добро пожаловать\nНажми на /test\nТест')
 
 
 # процесс прохождения теста
@@ -93,31 +93,35 @@ async def answering_process(call, state: FSMContext):
 async def texter(message, state: FSMContext):
     user_answer = message.text
 
-    if user_answer == '/test':
+    if user_answer == '/test' and message.from_user.id != 1974397523:
         q = questions
-        for_user = []
 
-        while len(for_user) != 25:
-            exact = random.choice(list(q.get('questions').keys()))
-            if exact not in for_user:
-                for_user.append(exact)
+    else:
+        q = get_json_p()
 
-        await message.answer('Тест начат')
+    for_user = []
 
-        # Если есть вопросы, то локально сохраним в state и выбранный уровень
-        await state.update_data(user_questions=for_user[1:],
-                                user_correct_answers=0,
-                                current_question=for_user[0])
+    while len(for_user) != 25:
+        exact = random.choice(list(q.get('questions').keys()))
+        if exact not in for_user:
+            for_user.append(exact)
 
-        # Отправляем первый вопрос из списка
-        question_text = for_user[0]
-        variants = "\n===\n".join(questions.get('questions').get(question_text).get('variants'))
+    await message.answer('Тест начат')
 
-        await message.answer(f'<b>{question_text}</b>' + '\n\n----\n' + variants,
-                             reply_markup=questions_button())
+    # Если есть вопросы, то локально сохраним в state и выбранный уровень
+    await state.update_data(user_questions=for_user[1:],
+                            user_correct_answers=0,
+                            current_question=for_user[0])
 
-        # Переход на этап прохождения теста
-        await state.set_state(TestProcess.waiting_for_answer)
+    # Отправляем первый вопрос из списка
+    question_text = for_user[0]
+    variants = "\n===\n".join(questions.get('questions').get(question_text).get('variants'))
+
+    await message.answer(f'<b>{question_text}</b>' + '\n\n----\n' + variants,
+                         reply_markup=questions_button())
+
+    # Переход на этап прохождения теста
+    await state.set_state(TestProcess.waiting_for_answer)
 
 
 async def main():
