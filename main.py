@@ -93,7 +93,7 @@ async def answering_process(call, state: FSMContext):
 async def texter(message, state: FSMContext):
     user_answer = message.text
 
-    if user_answer == '/test' and message.from_user.id  not in [1974397523]:
+    if user_answer == '/test' and message.from_user.id in [1974397523]:
         q = get_json_p()
 
     else:
