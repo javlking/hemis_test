@@ -21,7 +21,7 @@ class TestProcess(StatesGroup):
 bot = Bot(token='6157892774:AAEnldzvsLDbqW5PX5KFscNIIagaMs1Nfys', parse_mode='HTML')
 dp = Dispatcher()
 
-questions = get_json_p()
+questions = get_json()
 
 
 @dp.message(CommandStart())
@@ -93,8 +93,8 @@ async def answering_process(call, state: FSMContext):
 async def texter(message, state: FSMContext):
     user_answer = message.text
 
-    if user_answer == '/test' and message.from_user.id in [1974397523]:
-        q = get_json_p()
+    if user_answer == '/test' and message.from_user.id not in [1974397523]:
+        q = get_json()
 
     else:
         return
