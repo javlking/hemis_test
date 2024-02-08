@@ -67,7 +67,7 @@ def make_json(clean_data):
 
 
 def get_json():
-    with open('taxation.json', 'rb') as file:
+    with open('budget.json', 'rb') as file:
         data = json.loads(file.read())
 
     return data
